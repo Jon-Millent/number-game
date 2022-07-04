@@ -25,11 +25,19 @@ export interface PuzzleBoxProps {
   source: PuzzleBoxSourceData[];
 
   grid: number;
+
+  onGameMove: (props: OnGameMoveProps)=> void
 }
 
 export interface PuzzleItemCardProps {
   source: PuzzleBoxSourceItemData;
+
+  onGameMove: (props: OnGameMoveProps)=> void;
+
+  x: number;
+  y: number;
 }
+
 
 export interface NumberPointBoxProps {
   grid: number;
@@ -46,3 +54,19 @@ export interface NumberPointBoxItemProps {
   size: number;
 }
 
+export enum GameMoveDirection {
+  top,
+  right,
+  bottom,
+  left,
+  none
+}
+
+export interface OnGameMoveProps {
+  direction: GameMoveDirection;
+  arrayX: number;
+  arrayY: number;
+
+  targetX: number;
+  targetY: number;
+}

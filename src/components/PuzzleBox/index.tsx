@@ -1,12 +1,13 @@
 import './index.less'
 import {
+  GameMoveDirection,
   NumberPointBoxItemProps,
   NumberPointBoxProps,
   PuzzleBoxProps,
   PuzzleItemCardProps
 } from "@/components/PuzzleBox/types";
 import {useEffect, useState} from "react";
-import { useDrag } from '@use-gesture/react'
+import {useDrag} from '@use-gesture/react'
 
 export function PuzzleBox(props: PuzzleBoxProps) {
 
@@ -21,10 +22,18 @@ export function PuzzleBox(props: PuzzleBoxProps) {
       style={{width: props.size + 'px', height: props.size + 'px'}}
     >
       {
-        props.source.map(item=> {
-          return item.children.map(item2 => {
+        props.source.map((item, index)=> {
+          return item.children.map((item2, index2) => {
             return (
-              <PuzzleItemCard source={item2} key={item2.id} />
+              <PuzzleItemCard
+                source={item2}
+                key={item2.id}
+                onGameMove={(info)=> {
+                  props.onGameMove(info)
+                }}
+                x={index}
+                y={index2}
+              />
             )
           })
         })
@@ -46,6 +55,7 @@ function NumberPointItem(info: NumberPointBoxItemProps) {
       className={'number-point-item'}
       style={{
         width: info.size + 'px',
+        height: info.size + 'px',
         left: info.x + 'px',
         top: info.y + 'px',
       }}
@@ -130,7 +140,6 @@ function NumberPointBox(props: NumberPointBoxProps) {
 export function PuzzleItemCard(props: PuzzleItemCardProps) {
 
   const bind = useDrag(({ down, movement: [mx, my] }) => {
-
     // 拖动结束后
     // 判断滑动方向
     // left
@@ -140,16 +149,65 @@ export function PuzzleItemCard(props: PuzzleItemCardProps) {
 
     if (!down) {
 
-    }
+      const arrayX = props.source.x
+      const arrayY = props.source.y
 
-    console.log(
-      {
-        down,
-        mx,
-        my
+      console.log(props.source, 'soirce')
+
+      let targetX = -1
+      let targetY = -1
+
+      let direction = GameMoveDirection.none
+
+      const absX = Math.abs(mx)
+      const absY = Math.abs(my)
+
+      if (absY > absX) {
+        // y > x 水平手势
+        if (my > 0) {
+          direction = GameMoveDirection.right
+        } else {
+          // left
+          direction = GameMoveDirection.left
+        }
+      } else {
+        if (mx > 0) {
+          // top
+          direction = GameMoveDirection.top
+        } else {
+          // bottom
+          direction = GameMoveDirection.bottom
+        }
       }
-    )
 
+      // 并且找到目标
+      switch (direction) {
+        case GameMoveDirection.top:
+          targetX = arrayX
+          targetY = arrayY - 1
+          break
+        case GameMoveDirection.left:
+          targetX = arrayX - 1
+          targetY = arrayY
+          break
+        case GameMoveDirection.right:
+          targetX = arrayX + 1
+          targetY = arrayY
+          break
+        case GameMoveDirection.bottom:
+          targetX = arrayX
+          targetY = arrayY + 1
+          break
+      }
+
+      props.onGameMove({
+        arrayX,
+        arrayY,
+        targetX,
+        targetY,
+        direction
+      })
+    }
   })
 
   return (

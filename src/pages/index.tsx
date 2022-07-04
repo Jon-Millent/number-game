@@ -38,6 +38,9 @@ export default function HomePage() {
        size={size}
        source={powerData}
        grid={grid}
+       onGameMove={(info)=> {
+         console.log(info)
+       }}
       />
     </div>
   );
