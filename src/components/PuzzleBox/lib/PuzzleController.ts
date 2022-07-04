@@ -6,6 +6,7 @@ import randomColor from 'randomcolor'
 
 interface PuzzleControllerProps {
   size: number;
+  grid: number;
 }
 
 export default class PuzzleController {
@@ -43,7 +44,7 @@ export default class PuzzleController {
       item.forEach((item2, index2) => {
         itemData.children.push({
           id: nanoid(),
-          label: item2.toString(),
+          value: item2,
           size,
           x: index2 * size,
           y: index * size,
@@ -51,7 +52,7 @@ export default class PuzzleController {
             luminosity: 'light',
             format: 'rgb' // e.g. 'rgba(9, 1, 107, 0.6482447960879654)'
           }),
-          isGhost: item2 == 0
+          isGhost: item2 == Math.pow(this.props.grid, 2)
         })
       })
 

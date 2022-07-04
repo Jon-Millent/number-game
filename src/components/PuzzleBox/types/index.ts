@@ -1,4 +1,3 @@
-
 export interface PuzzleBoxSourceData {
   id: string;
   x: number;
@@ -13,21 +12,37 @@ export interface PuzzleBoxSourceItemData {
   y: number;
   size: number;
 
-  label: string;
+  value: number;
   color: string;
   isGhost: boolean;
 }
 
 export interface PuzzleBoxProps {
-
   // 拼图尺寸
   size: number;
 
   // 拼图数据
   source: PuzzleBoxSourceData[];
 
+  grid: number;
 }
 
 export interface PuzzleItemCardProps {
   source: PuzzleBoxSourceItemData;
 }
+
+export interface NumberPointBoxProps {
+  grid: number;
+
+  size: number;
+
+  source: PuzzleBoxSourceData[];
+}
+
+export interface NumberPointBoxItemProps {
+  x: number;
+  y: number;
+  label: number;
+  size: number;
+}
+

@@ -5,13 +5,15 @@ import {PuzzleBox} from "@/components/PuzzleBox";
 
 export default function HomePage() {
 
-  const size = 600
+  const size = 400
+  const grid = 3
 
   const [powerData, setPowerData] = useState<PuzzleBoxSourceData[]>([])
 
   const puzzleController = useRef<PuzzleController>(
     new PuzzleController({
-      size
+      size,
+      grid
     })
   )
 
@@ -21,7 +23,7 @@ export default function HomePage() {
         [
           [1, 2, 3],
           [4, 5, 6],
-          [7, 8, 0],
+          [7, 8, 9],
         ]
       )
     )
@@ -35,6 +37,7 @@ export default function HomePage() {
       <PuzzleBox
        size={size}
        source={powerData}
+       grid={grid}
       />
     </div>
   );

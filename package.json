@@ -8,6 +8,8 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "@use-gesture/react": "^10.2.16",
+    "@use-gesture/vanilla": "^10.2.16",
     "nanoid": "^4.0.0",
     "randomcolor": "^0.6.2",
     "umi": "^4.0.5"
