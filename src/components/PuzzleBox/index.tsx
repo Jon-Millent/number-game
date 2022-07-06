@@ -15,27 +15,24 @@ export function PuzzleBox(props: PuzzleBoxProps) {
   // 包含左边的 * size
   //    下边的 * size
 
-
   return (
     <div
       className={'puzzle-box'}
       style={{width: props.size + 'px', height: props.size + 'px'}}
     >
       {
-        props.source.map((item, index)=> {
-          return item.children.map((item2, index2) => {
-            return (
-              <PuzzleItemCard
-                source={item2}
-                key={item2.id}
-                onGameMove={(info)=> {
-                  props.onGameMove(info)
-                }}
-                x={index}
-                y={index2}
-              />
-            )
-          })
+        props.renderData.map(item => {
+          return (
+            <PuzzleItemCard
+              source={item}
+              key={item.id}
+              onGameMove={(info)=> {
+                props.onGameMove(info)
+              }}
+              x={item.arrayParentIndex}
+              y={item.arrayChildrenIndex}
+            />
+          )
         })
       }
       {/*渲染数字指示器*/}
@@ -149,10 +146,8 @@ export function PuzzleItemCard(props: PuzzleItemCardProps) {
 
     if (!down) {
 
-      const arrayX = props.source.x
-      const arrayY = props.source.y
-
-      console.log(props.source, 'soirce')
+      const arrayX = props.source.arrayChildrenIndex
+      const arrayY = props.source.arrayParentIndex
 
       let targetX = -1
       let targetY = -1
@@ -162,21 +157,21 @@ export function PuzzleItemCard(props: PuzzleItemCardProps) {
       const absX = Math.abs(mx)
       const absY = Math.abs(my)
 
-      if (absY > absX) {
+      if (absY < absX) {
         // y > x 水平手势
-        if (my > 0) {
+        if (mx > 0) {
           direction = GameMoveDirection.right
         } else {
           // left
           direction = GameMoveDirection.left
         }
       } else {
-        if (mx > 0) {
+        if (my > 0) {
           // top
-          direction = GameMoveDirection.top
+          direction = GameMoveDirection.bottom
         } else {
           // bottom
-          direction = GameMoveDirection.bottom
+          direction = GameMoveDirection.top
         }
       }
 
@@ -215,6 +210,8 @@ export function PuzzleItemCard(props: PuzzleItemCardProps) {
       className={
         'puzzle-item-box ' + (props.source.isGhost ? 'ghost' : '')
       }
+      data-x={props.source.arrayParentIndex}
+      data-y={props.source.arrayChildrenIndex}
       style={{
         width: props.source.size + 'px',
         height: props.source.size + 'px',

@@ -15,6 +15,9 @@ export interface PuzzleBoxSourceItemData {
   value: number;
   color: string;
   isGhost: boolean;
+
+  arrayParentIndex: number;
+  arrayChildrenIndex: number;
 }
 
 export interface PuzzleBoxProps {
@@ -26,7 +29,9 @@ export interface PuzzleBoxProps {
 
   grid: number;
 
-  onGameMove: (props: OnGameMoveProps)=> void
+  onGameMove: (props: OnGameMoveProps)=> void;
+
+  renderData: PuzzleBoxSourceItemData[];
 }
 
 export interface PuzzleItemCardProps {
