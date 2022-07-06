@@ -75,8 +75,6 @@ function NumberPointBox(props: NumberPointBoxProps) {
       const ev = props.size / props.grid
       for (let index=0; index < props.grid; index++) {
 
-        console.log(index, props.source, '========')
-
         const rightLine = props.source[index].children.reduce(
           (val, item)=> val + item.value, 0
         )
@@ -137,13 +135,11 @@ function NumberPointBox(props: NumberPointBoxProps) {
 export function PuzzleItemCard(props: PuzzleItemCardProps) {
 
   const bind = useDrag(({ down, movement: [mx, my] }) => {
-    // 拖动结束后
-    // 判断滑动方向
-    // left
-    // top
-    // right
-    // bottom
-
+    // 触发滑动的条件
+    /*
+    * target != ghost
+    * target 所滑动的方向有ghost
+    * */
     if (!down) {
 
       const arrayX = props.source.arrayChildrenIndex
@@ -221,13 +217,9 @@ export function PuzzleItemCard(props: PuzzleItemCardProps) {
       }}
     >
       {
-        props.source.isGhost ? (
-          <div className={'ghost-full'} {...bind()}>
-            <span>{props.source.value}</span>
-          </div>
-        ) : (
+        <div className={'guest-full'} {...bind()}>
           <span>{props.source.value}</span>
-        )
+        </div>
       }
     </div>
   )

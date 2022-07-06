@@ -94,6 +94,10 @@ export default function HomePage() {
              const move = moveParent.children[info.arrayX]
              const target = targetParent.children[info.targetX]
 
+             if (!target.isGhost) {
+               return
+             }
+
              if (move && target) {
                // 交换位置
                moveParent.children.splice(info.arrayX, 1, target)
